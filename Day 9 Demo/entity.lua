@@ -19,12 +19,12 @@ DIRECTIONS = {
   RIGHT = 4
 }
 
-function EntityClass:new(sc, xPos, yPos, width, height, scale)
+function EntityClass:new(dc, sc, xPos, yPos, width, height, scale)
   local entity = {}
   local metatable = {__index = EntityClass}
   setmetatable(entity, metatable)
   
-  --entity.sprite = love.graphics.newImage("Sprites/LinkDown.png")
+  entity.dataClass = dc
   entity.spriteClass = sc
     
   entity.facingDirection = DIRECTIONS.DOWN
@@ -46,9 +46,8 @@ function EntityClass:update()
     end
   end
   
-  self.position = self.position + moveDirection
+  self.position = self.position + (moveDirection * self.dataClass.moveSpeed)
   
-  -- NEW (change direction and set walking bool)
   if moveDirection.y ~= 0 then
     self.facingDirection = moveDirection.y > 0 and DIRECTIONS.DOWN or DIRECTIONS.UP
   elseif moveDirection.x ~= 0 then
@@ -65,7 +64,8 @@ function EntityClass:draw()
   
   love.graphics.draw(currentSprite, 
     self.position.x, self.position.y, 0, 
-    self.scale * flipX, self.scale)
+    self.scale * flipX, self.scale,
+    self.size.x/2, self.size.y/2)
 end
 
 

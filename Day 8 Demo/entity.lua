@@ -65,7 +65,8 @@ function EntityClass:draw()
   
   love.graphics.draw(currentSprite, 
     self.position.x, self.position.y, 0, 
-    self.scale * flipX, self.scale)
+    self.scale * flipX, self.scale,
+    self.size.x/2, self.size.y/2)
 end
 
 
